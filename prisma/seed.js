@@ -1,13 +1,17 @@
 import prisma from '../src/config/prisma.js';
+import bcrypt from 'bcryptjs';
 
 async function main() {
+  await prisma.appointment.deleteMany();
+  await prisma.timeBlock.deleteMany();
   await prisma.user.deleteMany();
-  console.log('Usuarios anteriores eliminados.');
+  console.log('Datos anteriores eliminados correctamente.');
+
   // Crear usuarios
   const user1 = await prisma.user.create({
     data: {
       email: 'user1@example.com',
-      password: 'password123',
+      password: await bcrypt.hash('password123', 10),
       name: 'User One',
       role: 'USER'
     }
@@ -16,7 +20,7 @@ async function main() {
   const user2 = await prisma.user.create({
     data: {
       email: 'admin@example.com',
-      password: 'admin123',
+      password: await bcrypt.hash('admin123', 10),
       name: 'Admin User',
       role: 'ADMIN'
     }
