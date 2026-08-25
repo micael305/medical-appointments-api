@@ -1,10 +1,6 @@
 import { createTimeBlockService, listReservationService } from '../services/adminService.js';
 
 const createTimeBlock = async (req, res) => {
-    if(req.user.role !== 'ADMIN') {
-        return res.status(403).json({error: 'Access denied'});
-        }
-
         const { startTime, endTime } = req.body;
 
         try {
@@ -16,10 +12,6 @@ const createTimeBlock = async (req, res) => {
 }
 
 const listReservations = async (req, res) => {
-    if(req.user.role !== 'ADMIN'){
-        return res.status(403).json({error: 'Acess denied'});
-    } 
-
     try {
         const reservations = await listReservationService();
         res.json(reservations);
