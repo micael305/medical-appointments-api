@@ -1,0 +1,55 @@
+{
+  "info": {
+    "_postman_id": "ace4cdff-eae6-4db9-9f8a-9b5bf56f405e",
+    "name": "API Appointment",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "33671141"
+  },
+  "item": [
+    {
+      "name": "Get User Appoiments",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{supabase_service_role_api_key_1dfo}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/appointments/my-appointments",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "appointments",
+            "my-appointments"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Users Appointmens",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "supabase_service_role_api_key_1dfo",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_070z",
+      "secret": true
+    }
+  ]
+}

@@ -1,51 +1,65 @@
-import 'dotenv/config';
-import { PrismaClient, Role } from '../generated/prisma/client.ts';
-import { PrismaPg } from '@prisma/adapter-pg';
-
-const prisma = new PrismaClient({
-  adapter: new PrismaPg({
-    connectionString: process.env.DATABASE_URL
-  })
-});
+import prisma from '../src/config/prisma.js';
+import bcrypt from 'bcryptjs';
 
 async function main() {
-  // Limpiar usuarios anteriores
+  await prisma.appointment.deleteMany();
+  await prisma.timeBlock.deleteMany();
   await prisma.user.deleteMany();
-  console.log('Usuarios anteriores eliminados.');
+  console.log('Datos anteriores eliminados correctamente.');
 
-  // Crear usuarios de prueba con el esquema actual
-  const users = [
-    {
-      name: 'Admin Demo',
-      email: 'admin@ejemplo.com',
-      password: 'passwordSegura123',
-      role: Role.ADMIN,
-    },
-    {
-      name: 'Usuario Demo 1',
-      email: 'user1@ejemplo.com',
-      password: 'passwordSegura123',
-      role: Role.USER,
-    },
-    {
-      name: 'Usuario Demo 2',
-      email: 'user2@ejemplo.com',
-      password: 'passwordSegura123',
-      role: Role.USER,
-    },
-  ];
+  // Crear usuarios
+  const user1 = await prisma.user.create({
+    data: {
+      email: 'user1@example.com',
+      password: await bcrypt.hash('password123', 10),
+      name: 'User One',
+      role: 'USER'
+    }
+  });
 
-  for (const user of users) {
-    await prisma.user.create({
-      data: user,
-    });
-  }
+  const user2 = await prisma.user.create({
+    data: {
+      email: 'admin@example.com',
+      password: await bcrypt.hash('admin123', 10),
+      name: 'Admin User',
+      role: 'ADMIN'
+    }
+  });
 
-  console.log('Usuarios de demostración creados con éxito.');
+// Crear bloques de tiempo
+  const timeBlock1 = await prisma.timeBlock.create({
+    data: {
+      startTime: new Date('2026-11-15T09:00:00Z'),
+      endTime: new Date('2026-11-15T10:00:00Z')
+    }
+  });
+
+  const timeBlock2 = await prisma.timeBlock.create({
+    data: {
+      startTime: new Date('2026-11-15T10:00:00Z'),
+      endTime: new Date('2026-11-15T11:00:00Z')
+    }
+  });
+
+  // Crear citas
+  await prisma.appointment.create({
+    data: {
+      date: new Date('2026-11-15T09:00:00Z'),
+      user: { connect: { id: user1.id } },
+      timeBlock: { connect: { id: timeBlock1.id } }
+    }
+  });
+
+  await prisma.appointment.create({
+    data: {
+      date: new Date('2026-11-15T10:00:00Z'),
+      user: { connect: { id: user2.id } },
+      timeBlock: { connect: { id: timeBlock2.id } }
+    }
+  });
 }
-
 main()
-  .catch((e) => {
+  .catch(e => {
     console.error(e);
     process.exit(1);
   })
