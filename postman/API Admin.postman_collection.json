@@ -1,0 +1,107 @@
+{
+  "info": {
+    "_postman_id": "f0305790-5031-45e3-b8e6-630e05c54632",
+    "name": "API Admin",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "33671141"
+  },
+  "item": [
+    {
+      "name": "List Reservations",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{json_web_token_1dfo}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "  "
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/admin/reservations",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "reservations"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Time Block",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{supabase_service_role_api_key_1dfo}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "    {\r\n        \"startTime\": \"2026-10-15T09:00:00Z\",\r\n        \"endTime\": \"2026-10-15T10:00:00Z\"\r\n    }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/admin/time-blocks",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "admin",
+            "time-blocks"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "json_web_token_0w0c",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_19ax",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_17nr",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_1dfo",
+      "secret": true
+    },
+    {
+      "key": "supabase_service_role_api_key_1dfo",
+      "secret": true
+    }
+  ]
+}
